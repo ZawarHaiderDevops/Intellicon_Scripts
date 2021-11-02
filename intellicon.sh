@@ -12,11 +12,11 @@ DIR="/var/log/intellicon"
 LOG="/var/log/intellicon/install_intellicon.log"
 
 #Check Memory Var. Set INTELLICON_MIN_MEM in byte.
-INTELLICON_MIN_MEM=1500								#Memory Size in Mbytes
+INTELLICON_MIN_MEM=1500                                                         #Memory Size in Mbytes
 HOST_MEM=$(free -m | awk 'NR==2{print $2 }')
 
 #Check Disk Var. Set INTELLICON_MIN_DISK in Kbyte.
-INTELLICON_MIN_DISK=2500							# Disk Space in Mbytes ##	Requirements of INTELLICON 40-GB minimum disk space
+INTELLICON_MIN_DISK=2500                                                        # Disk Space in Mbytes ##       Requirements of INTELLICON 40-GB minimum disk space
 HOST_DISK=$(df -m | awk '$NF=="/"{print $4 }')
 
 #Check CPU Var.
@@ -34,7 +34,7 @@ now=$(date +"%d-%m-%Y %T")
 if [ -d $DIR ]; then
 echo "INTELLICON Directory under /var/log/ is alreday exist" |& tee -a $LOG
 else
-	mkdir $DIR
+        mkdir $DIR
 fi
 
 touch $LOG
@@ -89,30 +89,30 @@ function system_update() {
 if [ $(yum check-update | grep update | tail -n +2 | wc -l) == 0 ];then
 echo "System is already updated" |& tee -a $LOG
 else
-	clear
-	echo 'System Packages update is available'
-	echo 'After System Packages update system will reboot automatically'
-	echo '#####################'
-	echo '###################'
-	echo '#################'
-	echo '###############'
-	echo '#############'
-	echo '###########'
-	echo '#########'
-	echo '#######'
-	echo '#####'
-	echo '###'
-	echo '#'
-	read -p "Please Type (yes/no) : " INPUT
-			if [ "$INPUT" == "yes" ] || [ "$INPUT" == "YES" ] || [ "$INPUT" == "Yes" ] || [ "$INPUT" == "y" ] || [ "$INPUT" == "Y" ]; then
-				yum --assumeyes update  |& tee -a $LOG
-				yum --assumeyes screen  |& tee -a $LOG
-				echo "System has been updated successfully" |& tee -a $LOG
-				reboot
-			else
-				echo 'With out System update this script will not work'
-				exit 1
-			fi
+        clear
+        echo 'System Packages update is available'
+        echo 'After System Packages update system will reboot automatically'
+        echo '#####################'
+        echo '###################'
+        echo '#################'
+        echo '###############'
+        echo '#############'
+        echo '###########'
+        echo '#########'
+        echo '#######'
+        echo '#####'
+        echo '###'
+        echo '#'
+        read -p "Please Type (yes/no) : " INPUT
+                        if [ "$INPUT" == "yes" ] || [ "$INPUT" == "YES" ] || [ "$INPUT" == "Yes" ] || [ "$INPUT" == "y" ] || [ "$INPUT" == "Y" ]; then
+                                yum --assumeyes update  |& tee -a $LOG
+                                yum --assumeyes screen  |& tee -a $LOG
+                                echo "System has been updated successfully" |& tee -a $LOG
+                                reboot
+                        else
+                                echo 'With out System update this script will not work'
+                                exit 1
+                        fi
 fi
 }
 d="git.contegris.com"
@@ -161,14 +161,14 @@ echo "Ntpd is not installed, installing"  |& tee -a $LOG
 sleep 2
 yum --assumeyes install ntp |& tee -a $LOG | dialog --title "Install ntpd. Please wait.." --backtitle "INTELLICON Starter Script By Contegris" --progressbox 30 100
   if [ MAJOR=7 ]; then
-#	systemctl stop chronyd.service  |& tee -a $LOG 2>&1
+#       systemctl stop chronyd.service  |& tee -a $LOG 2>&1
 #    systemctl disable chronyd.service  |& tee -a $LOG 2>&1
     systemctl start ntpd.service  |& tee -a $LOG 2>&1
     systemctl enable ntpd.service  |& tee -a $LOG 2>&1
-	systemctl status ntpd.service  |& tee -a $LOG 2>&1
-	timedatectl set-timezone Asia/Karachi  |& tee -a $LOG 2>&1
+        systemctl status ntpd.service  |& tee -a $LOG 2>&1
+        timedatectl set-timezone Asia/Karachi  |& tee -a $LOG 2>&1
 else
-	echo "Exiting.....! on ntpd service."
+        echo "Exiting.....! on ntpd service."
   fi
 fi
 echo "Ntp is installed and functioning"  |& tee -a $LOG
@@ -237,7 +237,7 @@ fi
 if [ -f $PERCONA ]; then
 echo "$PERCONA is already installed" |& tee -a $LOG
 else
-yum install -y 'https://www.percona.com/downloads/percona-release/percona-release-0.1-6/redhat/percona-release-0.1-6.noarch.rpm' || cd /tmp/ && wget https://www.percona.com/downloads/percona-release/percona-release-0.1-3/redhat/percona-release-0.1-3.noarch.rpm --no-check-certificate
+yum install -y 'https://downloads.percona.com/downloads/percona-release/percona-release-0.1-3/redhat/percona-release-0.1-3.noarch.rpm' || cd /tmp/ && wget https://downloads.percona.com/downloads/percona-release/percona-release-0.1-3/redhat/percona-release-0.1-3.noarch.rpm --no-check-certificate
 rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY || rpm -ivh /tmp/percona-release-0.1-3.noarch.rpm
 fi
 
@@ -284,7 +284,7 @@ if [ -f /tmp/packages ]; then
 echo "All packages are already installed nothing to do...." |& tee -a $LOG
 else
 yum  --assumeyes install $PREREQUISITE
-wget https://rpms.remirepo.net/enterprise/7/remi/x86_64/redis-6.0.13-1.el7.remi.x86_64.rpm && rpm -ivh redis-6.0.13-1.el7.remi.x86_64.rpm
+wget https://rpms.remirepo.net/enterprise/7/remi/x86_64/redis-6.0.15-1.el7.remi.x86_64.rpm --no-check-certificate && rpm -ivh redis-6.0.15-1.el7.remi.x86_64.rpm
 touch /tmp/packages
 fi 
 #|& tee -a $LOG | dialog --title "Install PREREQUISITE Please wait.." --backtitle "Intellicon Starter Script By Contegris" --progressbox 40 120
@@ -318,37 +318,37 @@ echo "
 
 echo '[DEFAULT]
 
-ignoreip 	= 103.8.112.210/32
-bantime 	= 1800
-findtime 	= 600
-maxretry 	= 10
-backend 	= auto
+ignoreip        = 103.8.112.210/32
+bantime         = 1800
+findtime        = 600
+maxretry        = 10
+backend         = auto
 #logpath    = /var/log/auth.log
-usedns 		= warn
-destemail 	= support@contegris.com
-sendername 	= Fail2Ban
-banaction 	= iptables-multiport
-mta 		= sendmail
-protocol 	= tcp
-chain 		= INPUT
-action_ 	= %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-action_mw 	= %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+usedns          = warn
+destemail       = support@contegris.com
+sendername      = Fail2Ban
+banaction       = iptables-multiport
+mta             = sendmail
+protocol        = tcp
+chain           = INPUT
+action_         = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+action_mw       = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
           %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
-action_mwl 	= %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+action_mwl      = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
            %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s", sendername="%(sendername)s"]
-action 		= %(action_)s
+action          = %(action_)s
 
 [sshd]
-enabled 	= true
+enabled         = true
 
 [asterisk]
-enabled  	= true
-filter   	= asterisk
-action   	= iptables-allports[name=ASTERISK, protocol=all]
+enabled         = true
+filter          = asterisk
+action          = iptables-allports[name=ASTERISK, protocol=all]
 sendmail-whois[name=ASTERISK, dest=support@contegris.com, sender=fail2ban@contegris.com]
-logpath 	= /var/log/asterisk/full
-maxretry 	= 10
-bantime 	= 86400' > /etc/fail2ban/jail.local
+logpath         = /var/log/asterisk/full
+maxretry        = 10
+bantime         = 86400' > /etc/fail2ban/jail.local
 echo "Fail2Ban Custom settings are done for Asterisk and SSH"
 systemctl enable fail2ban && systemctl start fail2ban
 fi
@@ -676,11 +676,11 @@ sudo npm install n yarn sequelize sequelize-cli mysql2 -g |& tee -a $LOG
 sudo n 10.13.0 |& tee -a $LOG
 
 if [ -f /bin/node ]; then
-	echo "Setting Up the Require Node Version"
-	rm -rf /bin/node
-	ln -s /usr/local/bin/node /bin/
+        echo "Setting Up the Require Node Version"
+        rm -rf /bin/node
+        ln -s /usr/local/bin/node /bin/
 else
-	echo node -v
+        echo node -v
 fi
 }
 
@@ -695,25 +695,25 @@ fi
 
 function install_pm2() {
 if [ -x /usr/local/bin/pm2 ]; then
-	echo "PM2 is already installed"
+        echo "PM2 is already installed"
 else
-	npm install npm@latest -g  |& tee -a $LOG
-	if [ $? -ne 0 ]
-		then
-		echo "Command (npm install npm@latest -g) failed...!"
-		exit 1
-	else
-		#npm install pm2 -g  |& tee -a $LOG
-		npm install pm2 -g  |& tee -a $LOG
-		if [ $? -ne 0 ]
-			then
-			echo "PM2 Installed Globally Failed....!"
-			exit 1
-		else
-			echo "PM2 Installation Process has been completed" |& tee -a $LOG
-			echo "PM2 version is ($PM_VERSION)" |& tee -a $LOG	
-		fi
-	fi
+        npm install npm@latest -g  |& tee -a $LOG
+        if [ $? -ne 0 ]
+                then
+                echo "Command (npm install npm@latest -g) failed...!"
+                exit 1
+        else
+                #npm install pm2 -g  |& tee -a $LOG
+                npm install pm2 -g  |& tee -a $LOG
+                if [ $? -ne 0 ]
+                        then
+                        echo "PM2 Installed Globally Failed....!"
+                        exit 1
+                else
+                        echo "PM2 Installation Process has been completed" |& tee -a $LOG
+                        echo "PM2 version is ($PM_VERSION)" |& tee -a $LOG
+                fi
+        fi
 fi
 }
 # Variables for node and agi path
@@ -816,24 +816,24 @@ fi
 
 function mongodb_centrifugo(){
 if [[ ! -f /etc/yum.repos.d/mongodb.repo ]]; then
-	touch /etc/yum.repos.d/mongodb.repo  |& tee -a $LOG
-	echo '[MongoDB]
+        touch /etc/yum.repos.d/mongodb.repo  |& tee -a $LOG
+        echo '[MongoDB]
 name=MongoDB Repository
 baseurl=http://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/
 gpgcheck=0
 enabled=1' > /etc/yum.repos.d/mongodb.repo  |& tee -a $LOG
 yum makecache fast  |& tee -a $LOG
-		if systemctl list-units | grep 'mondod.service'; then
-		echo "MongoDB Installed" |& tee -a $LOG
-		else
-		yum install mongodb-org -y |& tee -a $LOG
-		systemctl start mongod.service |& tee -a $LOG
-		systemctl enable mongod.service |& tee -a $LOG
-		echo "MongoDB Version Detail" |& tee -a $LOG
-		echo "$(mongod --version)" |& tee -a $LOG
-		fi
-	else
-	echo "Mongo Repo Exist" |& tee -a $LOG
+                if systemctl list-units | grep 'mondod.service'; then
+                echo "MongoDB Installed" |& tee -a $LOG
+                else
+                yum install mongodb-org -y |& tee -a $LOG
+                systemctl start mongod.service |& tee -a $LOG
+                systemctl enable mongod.service |& tee -a $LOG
+                echo "MongoDB Version Detail" |& tee -a $LOG
+                echo "$(mongod --version)" |& tee -a $LOG
+                fi
+        else
+        echo "Mongo Repo Exist" |& tee -a $LOG
 fi
 echo "[centrifugo] Preparing" |& tee -a $LOG
 if systemctl list-units | grep 'centrifugo.service'; then
@@ -903,16 +903,16 @@ yes | cp -a /root/cx9/ui/build/* /var/www/html/cx9 && echo "UI Code has been cop
 fi
 
 if test -d "/etc/asterisk" ; then 
-	yes | cp -pf /var/www/html/intellicon_asterisk/*  /etc/asterisk && ls /etc/asterisk  |& tee -a $LOG
-	echo "Asterisk Configuration files are copied successfully"
-	chmod 777 /etc/asterisk/sip_registrations.conf
+        yes | cp -pf /var/www/html/intellicon_asterisk/*  /etc/asterisk && ls /etc/asterisk  |& tee -a $LOG
+        echo "Asterisk Configuration files are copied successfully"
+        chmod 777 /etc/asterisk/sip_registrations.conf
 fi
 echo "Setting up Agispeedy"
 ## Agi service
 if test -d "/etc/agispeedy" ; then
-	chmod 755 -R /etc/agispeedy
-	yes | cp /etc/agispeedy/contrib/agispeedy /etc/init.d/ && echo Agispeedy file copied successfully
-	echo "We are done with Agispeedy"
+        chmod 755 -R /etc/agispeedy
+        yes | cp /etc/agispeedy/contrib/agispeedy /etc/init.d/ && echo Agispeedy file copied successfully
+        echo "We are done with Agispeedy"
 fi
 }
 
@@ -920,24 +920,24 @@ function yarn_install() {
 CX9_DIR="/root/cx9/cx9-servers"
 NODE_PATH=/etc/node
 if [[ ! -L /usr/local/bin/yarn ]]; then
-	bash /tmp/npm1 |& tee -a $LOG
-	yarn -v
-	else
-	echo "Yarn is already installed and version is $(yarn -v)"
+        bash /tmp/npm1 |& tee -a $LOG
+        yarn -v
+        else
+        echo "Yarn is already installed and version is $(yarn -v)"
 fi
 
 if [ -d $CX9_DIR ]; then
-	cd $CX9_DIR && bash /tmp/npm3 |& tee -a $LOG
-	else
-	echo $CX9_DIR not found
-	exit 1
+        cd $CX9_DIR && bash /tmp/npm3 |& tee -a $LOG
+        else
+        echo $CX9_DIR not found
+        exit 1
 fi
 
 if [ -d $NODE_PATH ]; then
-	cd $NODE_PATH && bash /tmp/npm2 |& tee -a $LOG
-	else
-	echo $NODE_PATH not found
-	exit 1
+        cd $NODE_PATH && bash /tmp/npm2 |& tee -a $LOG
+        else
+        echo $NODE_PATH not found
+        exit 1
 fi
 }
 
@@ -1012,11 +1012,11 @@ echo "File already exist"
 else
 cd $PROXY_PATH && touch $PROXY_FILE 
 echo  "<IfModule mod_proxy.c>
-		ProxyRequests Off
-			<Proxy *>
-				Order deny,allow
-				Allow from all
-			</Proxy>                       
+                ProxyRequests Off
+                        <Proxy *>
+                                Order deny,allow
+                                Allow from all
+                        </Proxy>                       
 # destination server and directory
 ProxyPass /intellicon/intelli-Ajam http://localhost:8088/intelli-Ajam
 </IfModule>" >> $PROXY_PATH/$PROXY_FILE |& tee -a $LOG
@@ -1036,21 +1036,21 @@ echo "Intellicon Directory in httpd.conf is already exist"
 else
 echo "
 <Directory "/var/www/html/intellicon">
-	Options FollowSymLinks
-	AllowOverride All
-	Order allow,deny
-	Allow from all
+        Options FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
 </Directory>" >> /etc/httpd/conf/httpd.conf
 touch /tmp/http  |& tee -a $LOG
 sed -i -e 's/Options Indexes FollowSymLinks/Options FollowSymLinks/g' /etc/httpd/conf/httpd.conf  |& tee -a $LOG
 fi
 
 if test -f "/tmp/sudoersfile" ; then
-	echo Apache Permissions are already set in Sudoers
+        echo Apache Permissions are already set in Sudoers
 else
-	echo 'apache ALL=(ALL)      NOPASSWD: ALL' >> /etc/sudoers
-	echo Apache Permissions has been set
-	touch /tmp/sudoersfile
+        echo 'apache ALL=(ALL)      NOPASSWD: ALL' >> /etc/sudoers
+        echo Apache Permissions has been set
+        touch /tmp/sudoersfile
 fi
 }
 
@@ -1121,7 +1121,7 @@ fi
 if [ -f /var/local/intellicon_cron ]; then
 echo "Cron Job file already exist"
 else
-touch	/var/local/intellicon_cron 
+touch   /var/local/intellicon_cron 
 echo '*/10 * * * * /usr/sbin/ntpdate
 @reboot cd /root/cx9/cx9-servers && /usr/local/bin/pm2 start ecosystem.config.js >> /var/local/srvscript.log
 @reboot cd /etc/node && /usr/local/bin/node starter.js >> /var/local/srvscript.log
@@ -1202,9 +1202,9 @@ cd $OWASP_CHANGE
 #if [ $? != 0 ]; then
 #echo "OWASP not downloaded successfully"
 #else
-#	echo "Updating NSS & CURL"
-#	yum update -y nss curl libcurl
-#	git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git |& tee -a $LOG
+#       echo "Updating NSS & CURL"
+#       yum update -y nss curl libcurl
+#       git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git |& tee -a $LOG
 #fi
 echo "$OWASP_DIR successfully downloaded"  |& tee -a $LOG
 cd $OWASP_DIR && yes | cp  $OWASP_CONF_EXAMPLE  $OWASP_CONF_FILE && echo "File has been copied"  |& tee -a $LOG
@@ -1234,9 +1234,9 @@ function db_setting() {
 #auto passwrod generator
 #strings /dev/urandom | grep -o '[.[:alnum:]]+$' | head -n 6 | tr -d '\n' > password
 if [ -f /root/my.cnf ];then
-	echo "SQL PASSWORD is already set and PASSWORD is: $(cat /root/my.cnf)"
+        echo "SQL PASSWORD is already set and PASSWORD is: $(cat /root/my.cnf)"
 else
-	systemctl start mysqld && sleep 1
+        systemctl start mysqld && sleep 1
 
 MYSQL_ROOT=root
 root_pass_db=`cat /var/log/mysqld.log | grep -i 'temporary password' | cut  -d ' ' -f11` 
@@ -1585,43 +1585,43 @@ function rabbitmq() {
 #ERLANG="rpm -Uvh https://bintray.com/rabbitmq-erlang/rpm/download_file?file_path=erlang%2F21%2Fel%2F7%2Fx86_64%2Ferlang-21.3-1.el7.x86_64.rpm"
 ERLANG="wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm"
 if [ -f /etc/yum.repos.d/erlang_solutions.repo ]; then
-	echo "Rabbitmq repo is already exist"
+        echo "Rabbitmq repo is already exist"
 else
-	$ERLANG
-	rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
-	echo "Erlang Repository has been added"
-	yum install -y erlang
+        $ERLANG
+        rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
+        echo "Erlang Repository has been added"
+        yum install -y erlang
 fi
 
 if [ -f /tmp/rabbitmq ]; then
-	echo "Rebbitmq Package is already installed"
-	else
-	rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
-	yum install socat logrotate -y
-	yum install -y https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.el7.noarch.rpm
-	service rabbitmq-server start
-	systemctl enable rabbitmq-server
+        echo "Rebbitmq Package is already installed"
+        else
+#       rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+        yum install socat logrotate -y
+#       yum install -y https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.el7.noarch.rpm
+#       service rabbitmq-server start
+#       systemctl enable rabbitmq-server
 SERVICE=$(systemctl status rabbitmq-server | grep active | awk '{print $2}')
-	if [ $SERVICE == active ]; then
-		rabbitmq-plugins enable rabbitmq_management
-		echo "Rabbitmq plugins has been enabled successfully"
-		rabbitmqctl add_user admin contegris
-		echo "Rabbitmq Admin user has been created successfully"
-		rabbitmqctl set_user_tags admin administrator
-		echo "Rabbitmq Admin user tag has been created successfully"
-		rabbitmqctl add_user intellicon intellicon
-		echo "Rabbitmq Admin user intellicon has been created successfully"
-		rabbitmqctl set_user_tags intellicon administrator
-		echo "Rabbitmq Admin user intellicon tag has been created successfully"
-		rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
-		echo "Rabbitmq Admin User permission has been set successfully"
-		rabbitmqctl set_permissions -p / intellicon ".*" ".*" ".*" 
-		echo "Rabbitmq Admin User intellicon permission has been set successfully"
-		touch /tmp/rabbit
-	else
-		echo "Rabbitmq service is not running"
-		exit
-	fi
+        if [ $SERVICE == active ]; then
+                rabbitmq-plugins enable rabbitmq_management
+                echo "Rabbitmq plugins has been enabled successfully"
+                rabbitmqctl add_user admin contegris
+                echo "Rabbitmq Admin user has been created successfully"
+                rabbitmqctl set_user_tags admin administrator
+                echo "Rabbitmq Admin user tag has been created successfully"
+                rabbitmqctl add_user intellicon intellicon
+                echo "Rabbitmq Admin user intellicon has been created successfully"
+                rabbitmqctl set_user_tags intellicon administrator
+                echo "Rabbitmq Admin user intellicon tag has been created successfully"
+                rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+                echo "Rabbitmq Admin User permission has been set successfully"
+                rabbitmqctl set_permissions -p / intellicon ".*" ".*" ".*" 
+                echo "Rabbitmq Admin User intellicon permission has been set successfully"
+                touch /tmp/rabbit
+        else
+                echo "Rabbitmq service is not running"
+                exit
+        fi
 touch /tmp/rabbitmq
 fi
 }
